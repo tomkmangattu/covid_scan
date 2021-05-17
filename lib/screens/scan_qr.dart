@@ -37,10 +37,14 @@ class _QrScannerState extends State<QrScanner> {
             flex: 4,
             child: _buildQrView(context),
           ),
-          if (_barCodeResult != null)
-            Text('Barcode Type: ${_barCodeResult.code}')
-          else
-            Text('Scan a code'),
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                  _barCodeResult == null ? 'loading' : _barCodeResult.code),
+            ),
+          ),
         ],
       ),
     );
@@ -54,7 +58,6 @@ class _QrScannerState extends State<QrScanner> {
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
-      // formatsAllowed: [BarcodeFormat.aztec],
       overlay: QrScannerOverlayShape(
         borderColor: Colors.red,
         borderRadius: 10,
@@ -69,11 +72,12 @@ class _QrScannerState extends State<QrScanner> {
       this._qrViewController = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        _barCodeResult = scanData;
-      });
-      print('listening');
-      print(scanData.code.toString());
+      if (scanData != null) {
+        setState(() {
+          _barCodeResult = scanData;
+        });
+        controller.pauseCamera();
+      }
     });
   }
 }

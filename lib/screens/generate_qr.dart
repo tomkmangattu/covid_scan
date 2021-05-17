@@ -30,11 +30,15 @@ class QrGeneratorPage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: RepaintBoundary(
               key: _globalKey,
-              child: QrImage(
-                data: 'tom k mangattu',
-                version: QrVersions.auto,
-                size: _size.width,
-                backgroundColor: Colors.white,
+              child: Column(
+                children: [
+                  QrImage(
+                    data: 'tom k mangattu',
+                    version: QrVersions.auto,
+                    size: _size.width,
+                    backgroundColor: Colors.white,
+                  ),
+                ],
               ),
             ),
           )

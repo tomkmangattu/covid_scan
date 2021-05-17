@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "290653882397",
+    "firebase_url": "https://unicone.firebaseio.com",
+    "project_id": "unicone",
+    "storage_bucket": "unicone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290653882397:android:6456ba5a1c7cf456c7def4",
+        "android_client_info": {
+          "package_name": "com.example.covid_scan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290653882397-h3j68389es8hettq976vqhp0bq7e2lal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsQnYyPv-2nxSC6LDVEDfmztEYFPxdZp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290653882397-h3j68389es8hettq976vqhp0bq7e2lal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

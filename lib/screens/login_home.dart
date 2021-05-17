@@ -1,5 +1,5 @@
-import 'package:covid_scan/screens/generate_qr.dart';
-import 'package:covid_scan/screens/scan_qr.dart';
+import 'package:covid_scan/screens/phone_no.dart';
+import 'package:covid_scan/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class LoginHome extends StatelessWidget {
@@ -7,22 +7,41 @@ class LoginHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, QrGeneratorPage.id);
-            },
-            child: Text('generate or code'),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image(
+                  image: AssetImage('assets/images/qr-app.png'),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginPhoneNoScreen.id);
+                },
+                child: Container(
+                  width: double.infinity,
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  decoration: kLoginButtonDec,
+                ),
+              )
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, QrScanner.id);
-            },
-            child: Text('read qr code'),
-          ),
-        ],
+        ),
       ),
     );
   }
