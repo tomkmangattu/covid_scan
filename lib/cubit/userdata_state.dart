@@ -12,4 +12,7 @@ class UserdataError extends UserdataState {
   UserdataError({this.error});
 }
 
-class UserdataSucess extends UserdataState {}
+class UserdataSucess extends UserdataState {
+  final String message;
+  UserdataSucess({this.message});
+}

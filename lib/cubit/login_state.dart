@@ -18,6 +18,4 @@ class LoginFail extends LoginState {
 
 class NewUser extends LoginState {}
 
-class OldCustomer extends LoginState {}
-
-class OldOwner extends LoginState {}
+class OldUser extends LoginState {}

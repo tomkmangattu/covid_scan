@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:covid_scan/cubit/userdata_cubit.dart';
 import 'package:covid_scan/utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,8 @@ class _UserFormState extends State<UserForm> {
   File _image;
   double _width;
   final _picker = ImagePicker();
+  VaccineStatus _vaccineStatus = VaccineStatus.one;
+
   @override
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
@@ -78,7 +79,7 @@ class _UserFormState extends State<UserForm> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 onChanged: (String value) {
-                  _userData.age = value;
+                  _userData.emailId = value;
                 },
                 keyboardType: TextInputType.emailAddress,
                 decoration: formdecoration.copyWith(hintText: 'Enter email Id'),
@@ -99,14 +100,73 @@ class _UserFormState extends State<UserForm> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 onChanged: (String value) {
-                  _userData.emailId = value;
+                  _userData.age = value;
                 },
                 keyboardType: TextInputType.number,
                 maxLength: 3,
                 decoration: formdecoration.copyWith(
-                    hintText: 'Enter your age',
-                    suffixText: '*',
-                    counterText: ''),
+                    hintText: 'Enter your age', counterText: ''),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Vaccination status:',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  FittedBox(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Text('None'),
+                            Radio(
+                              value: VaccineStatus.none,
+                              groupValue: _vaccineStatus,
+                              onChanged: (VaccineStatus status) {
+                                setState(() {
+                                  _vaccineStatus = status;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('One Dose'),
+                            Radio(
+                              value: VaccineStatus.one,
+                              groupValue: _vaccineStatus,
+                              onChanged: (VaccineStatus status) {
+                                setState(() {
+                                  _vaccineStatus = status;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Two'),
+                            Radio(
+                              value: VaccineStatus.two,
+                              groupValue: _vaccineStatus,
+                              onChanged: (VaccineStatus status) {
+                                setState(() {
+                                  _vaccineStatus = status;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             TextButton(
@@ -123,7 +183,7 @@ class _UserFormState extends State<UserForm> {
               ),
             ),
             const SizedBox(
-              height: 50,
+              height: 40,
             ),
           ],
         ),
@@ -131,9 +191,18 @@ class _UserFormState extends State<UserForm> {
     );
   }
 
+  void _unfocus() {
+    final focus = FocusScope.of(context);
+    if (focus.hasPrimaryFocus) {
+      focus.unfocus();
+    }
+  }
+
   void _proceed() {
+    _unfocus();
     if (_globalKey.currentState.validate()) {
-      BlocProvider.of<UserdataCubit>(context).uploadData();
+      BlocProvider.of<UserdataCubit>(context).uploadData(
+          userData: _userData, vaccineStatus: _vaccineStatus, file: _image);
     }
   }
 
@@ -154,6 +223,7 @@ class _UserFormState extends State<UserForm> {
   }
 
   void _uploadProfilePicture() {
+    _unfocus();
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -196,8 +266,8 @@ class _UserFormState extends State<UserForm> {
   }
 
   void _getImage(ImageSource imgsrc) async {
-    final PickedFile pickedFile =
-        await _picker.getImage(source: imgsrc, imageQuality: 12);
+    final PickedFile pickedFile = await _picker.getImage(
+        source: imgsrc, imageQuality: 12, maxWidth: 500, maxHeight: 500);
     if (pickedFile != null) {
       Navigator.pop(context);
       setState(() {

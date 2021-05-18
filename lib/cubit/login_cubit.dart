@@ -8,6 +8,7 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   String verificationId;
   String phno;
+  bool signStarted = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
   LoginCubit() : super(LoginInitial());
 
@@ -25,12 +26,13 @@ class LoginCubit extends Cubit<LoginState> {
     }
 
     Future<void> _gotoOtpScreen() async {
-      await Future.delayed(Duration(seconds: 5));
-      emit(LoginOtp());
+      await Future.delayed(Duration(seconds: 6));
+      if (!signStarted) emit(LoginOtp());
     }
 
     final PhoneVerificationCompleted _verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) {
+      signStarted = true;
       print('ath completed');
       _signInwithCredential(phoneAuthCredential);
     };
@@ -86,11 +88,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (userName == null) {
       emit(NewUser());
     } else {
-      if (userName.contains('customer')) {
-        emit(OldCustomer());
-      } else {
-        emit(OldOwner());
-      }
+      emit(OldUser());
     }
   }
 }

@@ -1,6 +1,5 @@
 import 'package:covid_scan/cubit/login_cubit.dart';
-import 'package:covid_scan/screens/home_screens/owner_home.dart';
-import 'package:covid_scan/screens/home_screens/user_home.dart';
+import 'package:covid_scan/screens/home_screens/app_home.dart';
 import 'package:covid_scan/screens/login_home.dart';
 import 'package:covid_scan/screens/new_user.dart';
 import 'package:covid_scan/screens/otp_box.dart';
@@ -19,12 +18,7 @@ class PhLoginScreen extends StatelessWidget {
 
   void _oldCustomer(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(
-        context, UserHome.id, ModalRoute.withName(LoginHome.id));
-  }
-
-  void _oldOwner(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(
-        context, OwnerHome.id, ModalRoute.withName(LoginHome.id));
+        context, AppHomePage.id, ModalRoute.withName(LoginHome.id));
   }
 
   void _newUser(BuildContext context) {
@@ -48,11 +42,8 @@ class PhLoginScreen extends StatelessWidget {
             if (state is NewUser) {
               _newUser(context);
             }
-            if (state is OldCustomer) {
+            if (state is OldUser) {
               _oldCustomer(context);
-            }
-            if (state is OldOwner) {
-              _oldOwner(context);
             }
           },
           builder: (context, state) {

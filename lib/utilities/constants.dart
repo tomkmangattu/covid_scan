@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 
 // app primary color
@@ -42,3 +45,23 @@ final InputDecoration formdecoration = InputDecoration(
 //Color(0xff1de9b6)
 //Color(0xff00e5ff)
 //Color(0xff00b8d4)
+
+enum VaccineStatus {
+  none,
+  one,
+  two,
+}
+
+final Map<VaccineStatus, String> vaccineStatusText = {
+  VaccineStatus.none: 'none',
+  VaccineStatus.one: 'one',
+  VaccineStatus.two: 'two',
+};
+
+final CollectionReference fireStoreRef = FirebaseFirestore.instance
+    .collection('covin_scan')
+    .doc(FirebaseAuth.instance.currentUser.uid)
+    .collection(FirebaseAuth.instance.currentUser.uid);
+
+final firebase_storage.Reference profilePicRef =
+    firebase_storage.FirebaseStorage.instance.ref('profilePic');
