@@ -53,7 +53,10 @@ class UserScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Tap to Scan',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900),
                         ),
                       ),
                     ),
@@ -70,10 +73,37 @@ class UserScreen extends StatelessWidget {
                     context, MaterialPageRoute(builder: (_) => UserVisits()));
               },
               child: Container(
+                padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.deepPurple),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xffc2185b), Color(0xff4a148c)],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(2, 2),
+                      blurRadius: 4,
+                      color: Colors.black54,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'View your Visits',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900),
+                    ),
+                    Image(
+                      image: AssetImage('assets/images/userData.png'),
+                    )
+                  ],
                 ),
               ),
             ),

@@ -13,7 +13,6 @@ class NewUserScreen extends StatefulWidget {
 }
 
 class _NewUserScreenState extends State<NewUserScreen> {
-  @override
   void _sucess(BuildContext context) async {
     await Future.delayed(Duration(seconds: 3));
     Navigator.popAndPushNamed(context, AppHomePage.id);
@@ -24,6 +23,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
     Navigator.pop(context);
   }
 
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<UserdataCubit>(
       create: (BuildContext ctk) => UserdataCubit(),
@@ -79,7 +79,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              sucess ? Icons.check : Icons.error,
+              sucess ? Icons.cloud_done_outlined : Icons.error_outlined,
               color: Colors.white,
               size: 200,
             ),

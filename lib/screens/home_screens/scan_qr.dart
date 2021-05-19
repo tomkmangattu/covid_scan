@@ -31,7 +31,7 @@ class _QrScannerState extends State<QrScanner> {
   @override
   void dispose() {
     super.dispose();
-    _qrViewController.dispose();
+    _qrViewController?.dispose();
   }
 
   @override
@@ -82,11 +82,12 @@ class _QrScannerState extends State<QrScanner> {
 
   void _onQRViewCreated(QRViewController controller) {
     controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        _qrViewController = controller;
+      });
       if (scanData != null) {
-        setState(() {
-          _qrViewController = controller;
-        });
         controller.pauseCamera();
+        // controller.dispose();
         _uploadtoDataBase(scanData.code);
       }
     });
@@ -94,44 +95,46 @@ class _QrScannerState extends State<QrScanner> {
 
   void _uploadtoDataBase(String result) async {
     // adding to shop registor
-    final List scandata = result.split('/ ');
-    final shopId = scandata.last;
-    final shopName = scandata[1];
-    // print(shopId);
-    final String now = formator.format(DateTime.now());
-    final _userId = FirebaseAuth.instance.currentUser.uid;
-    final name = FirebaseAuth.instance.currentUser.displayName;
-    final CollectionReference collectionReference = FirebaseFirestore.instance
-        .collection('covin_scan')
-        .doc(shopId)
-        .collection(shopId)
-        .doc('ShopRegistor')
-        .collection('ShopRegistor')
-        .doc(now)
-        .collection(now);
-    Map<String, dynamic> data = {
-      'userId': _userId,
-      'DateTime': _now,
-      'custName': name,
-    };
+    if (result.contains('covin_scan_u/ ')) {
+      final List scandata = result.split('/ ');
+      final shopId = scandata.last;
+      final shopName = scandata[1];
+      // print(shopId);
+      final String now = formator.format(DateTime.now());
+      final _userId = FirebaseAuth.instance.currentUser.uid;
+      final name = FirebaseAuth.instance.currentUser.displayName;
+      final CollectionReference collectionReference = FirebaseFirestore.instance
+          .collection('covin_scan')
+          .doc(shopId)
+          .collection(shopId)
+          .doc('ShopRegistor')
+          .collection('ShopRegistor')
+          .doc(now)
+          .collection(now);
+      Map<String, dynamic> data = {
+        'userId': _userId,
+        'DateTime': _now,
+        'custName': name,
+      };
 
-    // adding to customer registor
-    Map<String, dynamic> userData = {
-      'shopId': shopId,
-      'shopName': shopName,
-      'DateTime': _now,
-    };
+      // adding to customer registor
+      Map<String, dynamic> userData = {
+        'shopId': shopId,
+        'shopName': shopName,
+        'DateTime': _now,
+      };
 
-    final CollectionReference reference =
-        fireStoreRef.doc('custRegistor').collection('custRegistor');
-    try {
-      await collectionReference.add(data);
-      await reference.add(userData);
-      print('uploaded to registor');
-    } on FirebaseException catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error Occured while uploading data')));
+      final CollectionReference reference =
+          fireStoreRef.doc('custRegistor').collection('custRegistor');
+      try {
+        await collectionReference.add(data);
+        await reference.add(userData);
+        print('uploaded to registor');
+      } on FirebaseException catch (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error Occured while uploading data')));
+      }
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
   }
 }

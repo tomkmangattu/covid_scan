@@ -31,7 +31,7 @@ class AppHomePageState extends State<AppHomePage> {
     ),
     TabItem(
       tabName: 'profile',
-      icon: Icons.person_outline_rounded,
+      icon: Icons.account_circle_outlined,
       page: SettingsScreen(),
     ),
   ];

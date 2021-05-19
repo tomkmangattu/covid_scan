@@ -21,7 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(primaryColor: kAppPrimColor),
+      theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: kAppPrimColor,
+          fontFamily: 'Lato'),
+      // ThemeData.light().copyWith(primaryColor: kAppPrimColor,),
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? LoginHome.id
           : AppHomePage.id,

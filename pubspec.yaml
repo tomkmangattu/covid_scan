@@ -56,6 +56,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
+  # image credits pngtree.com
   assets:
     - assets/images/
   
@@ -74,6 +75,35 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/lato/Lato-Thin.ttf
+          weight: 100
+        - asset: assets/lato/Lato-ThinItalic.ttf
+          weight: 100
+          style: italic
+        - asset: assets/lato/Lato-Light.ttf
+          weight: 300
+        - asset: assets/lato/Lato-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/lato/Lato-Regular.ttf
+          weight: 400
+        - asset: assets/lato/Lato-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/lato/Lato-Bold.ttf
+          weight: 700
+        - asset: assets/lato/Lato-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/lato/Lato-Black.ttf
+          weight: 900
+        - asset: assets/lato/Lato-BlackItalic.ttf
+          weight: 900
+          style: italic
+
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -1,4 +1,6 @@
+import 'package:covid_scan/models/graph.dart';
 import 'package:covid_scan/screens/home_screens/generate_qr.dart';
+import 'package:covid_scan/screens/home_screens/shop_registor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,15 @@ class OwnerScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 10,
-            child: Container(),
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              child: Graph(),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.deepPurple, width: 2),
+              ),
+            ),
           ),
           Expanded(
             flex: 4,
@@ -43,7 +53,10 @@ class OwnerScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ShopRegistor()));
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(

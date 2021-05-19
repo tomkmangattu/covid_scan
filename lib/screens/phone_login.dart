@@ -90,7 +90,7 @@ class PhLoginScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            sucess ? Icons.check : Icons.error,
+            sucess ? Icons.verified_user_outlined : Icons.error_outlined,
             color: Colors.white,
             size: 100,
           ),

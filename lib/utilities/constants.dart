@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // app primary color
 const Color kAppPrimColor = Color(0xff2979ff);
@@ -63,5 +64,15 @@ final CollectionReference fireStoreRef = FirebaseFirestore.instance
     .doc(FirebaseAuth.instance.currentUser.uid)
     .collection(FirebaseAuth.instance.currentUser.uid);
 
+final CollectionReference fireStoreShopRef = FirebaseFirestore.instance
+    .collection('covin_scan')
+    .doc(FirebaseAuth.instance.currentUser.uid)
+    .collection(FirebaseAuth.instance.currentUser.uid)
+    .doc('ShopRegistor')
+    .collection('ShopRegistor');
+
 final firebase_storage.Reference profilePicRef =
     firebase_storage.FirebaseStorage.instance.ref('profilePic');
+
+final visitsdateFormator = DateFormat('dd-MM-yyyy');
+final visitstimeFormator = DateFormat('jm');
