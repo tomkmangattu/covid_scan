@@ -23,8 +23,16 @@ class QrGeneratorPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: _shareQrCode,
-          )
+            onPressed: () {
+              _shareQrCode(context, true);
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.file_download),
+            onPressed: () {
+              _shareQrCode(context, false);
+            },
+          ),
         ],
       ),
       body: Column(
@@ -64,7 +72,7 @@ class QrGeneratorPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     Text(
                       'Scan the Qr code using coid_scan app',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, color: Colors.black54),
                       textAlign: TextAlign.center,
                     )
                   ],
@@ -77,7 +85,7 @@ class QrGeneratorPage extends StatelessWidget {
     );
   }
 
-  void _shareQrCode() async {
+  void _shareQrCode(BuildContext context, bool share) async {
     try {
       // convert qr code to image
       RenderRepaintBoundary boundary =
@@ -86,15 +94,30 @@ class QrGeneratorPage extends StatelessWidget {
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
-      // save image
-      final tempDir = await getTemporaryDirectory();
-      final File file = await File('${tempDir.path}/image.png').create();
-      await file.writeAsBytes(pngBytes);
+      if (!share) {
+        // save to permanent directory
 
-      // sent qr code to other apps
-      Share.shareFiles(['${tempDir.path}/image.png'], text: 'Qr Code');
+        final permenentDir = await getExternalStorageDirectory();
+        final File permentFile =
+            await File('${permenentDir.path}/qrcodeImage.png').create();
+        print(permentFile.path);
+        await permentFile.writeAsBytes(pngBytes);
+      }
+      // share file
+      else {
+        // save image
+        final tempDir = await getTemporaryDirectory();
+        final File file =
+            await File('${tempDir.path}/qrcodeImage.png').create();
+        await file.writeAsBytes(pngBytes);
+
+        // sent qr code to other apps
+        Share.shareFiles(['${tempDir.path}/qrcodeImage.png'], text: 'Qr Code');
+      }
     } catch (e) {
       debugPrint(e.toString());
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Sorry something went wrong')));
     }
   }
 }

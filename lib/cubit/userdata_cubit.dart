@@ -11,7 +11,8 @@ part 'userdata_state.dart';
 
 class UserdataCubit extends Cubit<UserdataState> {
   final User firebaseUser = FirebaseAuth.instance.currentUser;
-  UserdataCubit() : super(UserdataInitial());
+  final bool edit;
+  UserdataCubit({this.edit}) : super(UserdataInitial());
 
   void uploadData(
       {UserData userData, VaccineStatus vaccineStatus, File file}) async {
@@ -25,6 +26,20 @@ class UserdataCubit extends Cubit<UserdataState> {
       'age': userData.age,
       'vaccineStatus': vaccineStatusText[vaccineStatus],
     };
+    if (edit) {
+      try {
+        final data =
+            await fireStoreRef.doc('userInfo').collection('userInfo').get();
+        final id = data.docs.first.id;
+        await fireStoreRef
+            .doc('userInfo')
+            .collection('userInfo')
+            .doc(id)
+            .delete();
+      } on FirebaseException catch (_) {
+        emit(UserdataError(error: 'Sorry Error while deleting old data'));
+      }
+    }
     try {
       // upload user data
       await fireStoreRef

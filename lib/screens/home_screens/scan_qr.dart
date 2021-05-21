@@ -18,6 +18,7 @@ class _QrScannerState extends State<QrScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   final DateFormat formator = DateFormat('dd-MM-yyyy');
   final _now = DateTime.now();
+  bool _flashon = false;
 
   @override
   void reassemble() {
@@ -134,6 +135,12 @@ class _QrScannerState extends State<QrScanner> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error Occured while uploading data')));
       }
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('The QR Code you scanned was invalid'),
+        backgroundColor: kAppPrimColor,
+      ));
       Navigator.pop(context);
     }
   }

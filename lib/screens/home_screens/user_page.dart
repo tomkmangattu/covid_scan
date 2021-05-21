@@ -98,6 +98,7 @@ class UserScreen extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
+                          fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.w900),
                     ),
                     Image(

@@ -26,7 +26,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
 
     Future<void> _gotoOtpScreen() async {
-      await Future.delayed(Duration(seconds: 6));
+      await Future.delayed(Duration(seconds: 10));
       if (!signStarted) emit(LoginOtp());
     }
 

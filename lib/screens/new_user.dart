@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewUserScreen extends StatefulWidget {
   static const String id = 'new user screen';
-
+  final bool edit;
+  // check for new user or editing user details
+  NewUserScreen({this.edit = false});
   @override
   _NewUserScreenState createState() => _NewUserScreenState();
 }
@@ -15,7 +17,10 @@ class NewUserScreen extends StatefulWidget {
 class _NewUserScreenState extends State<NewUserScreen> {
   void _sucess(BuildContext context) async {
     await Future.delayed(Duration(seconds: 3));
-    Navigator.popAndPushNamed(context, AppHomePage.id);
+    if (!widget.edit)
+      Navigator.popAndPushNamed(context, AppHomePage.id);
+    else
+      Navigator.pop(context);
   }
 
   void _error(BuildContext context) async {
@@ -26,10 +31,10 @@ class _NewUserScreenState extends State<NewUserScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserdataCubit>(
-      create: (BuildContext ctk) => UserdataCubit(),
+      create: (BuildContext ctk) => UserdataCubit(edit: widget.edit),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('One more step to go..'),
+          title: Text(!widget.edit ? 'One more step to go..' : 'User Details'),
           elevation: 0,
         ),
         body: BlocConsumer<UserdataCubit, UserdataState>(
@@ -64,8 +69,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
           width: 200,
           height: 200,
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(Colors.white),
-          ),
+              valueColor: AlwaysStoppedAnimation(Colors.white)),
         ),
       ),
     );

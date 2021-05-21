@@ -1,11 +1,13 @@
 import 'package:covid_scan/cubit/signout_cubit.dart';
 import 'package:covid_scan/screens/login_home.dart';
+import 'package:covid_scan/screens/new_user.dart';
+import 'package:covid_scan/utilities/theme_changer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
-  final _username = FirebaseAuth.instance.currentUser.displayName;
+  var _username = FirebaseAuth.instance.currentUser.displayName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +41,34 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
             ),
-          )
+          ),
+          const Divider(height: 2),
+          // edit details
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => NewUserScreen(
+                    edit: true,
+                  ),
+                ),
+              );
+            },
+            child: SizedBox(
+              width: double.infinity,
+              child: Text('Change User Info'),
+            ),
+          ),
+          const Divider(height: 2),
+          SwitchListTile(
+            title: Text('Enable dark theme'),
+            value: Theme.of(context).brightness == Brightness.dark,
+            onChanged: (bool value) {
+              ThemeChanger.of(context).changeTheme();
+            },
+          ),
+          const Divider(height: 2),
         ],
       ),
     );

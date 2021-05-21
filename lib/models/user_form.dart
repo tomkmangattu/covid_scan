@@ -266,8 +266,8 @@ class _UserFormState extends State<UserForm> {
   }
 
   void _getImage(ImageSource imgsrc) async {
-    final PickedFile pickedFile = await _picker.getImage(
-        source: imgsrc, imageQuality: 12, maxWidth: 500, maxHeight: 500);
+    final PickedFile pickedFile =
+        await _picker.getImage(source: imgsrc, imageQuality: 12);
     if (pickedFile != null) {
       Navigator.pop(context);
       setState(() {

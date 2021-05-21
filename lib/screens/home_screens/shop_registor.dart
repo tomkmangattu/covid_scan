@@ -141,16 +141,21 @@ class _ShopRegistorState extends State<ShopRegistor> {
     final CollectionReference ref = _ref
         .doc(visitsdateFormator.format(_now))
         .collection(visitsdateFormator.format(_now));
-    final QuerySnapshot snapshot = await ref.get();
-    for (QueryDocumentSnapshot<Object> document in snapshot.docs) {
-      // print(document.data());
-      userVisit.add(
-        Visits(
-          shopName: document['custName'] ?? '',
-          dateTime: document['DateTime'].toDate(),
-          shopId: document['userId'],
-        ),
-      );
+    try {
+      final QuerySnapshot snapshot = await ref.get();
+
+      for (QueryDocumentSnapshot<Object> document in snapshot.docs) {
+        // print(document.data());
+        userVisit.add(
+          Visits(
+            shopName: document['custName'] ?? '',
+            dateTime: document['DateTime'].toDate(),
+            shopId: document['userId'],
+          ),
+        );
+      }
+    } on FirebaseException catch (_) {
+      return Future.error(_);
     }
     return userVisit;
   }

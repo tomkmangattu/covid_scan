@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_scan/utilities/constants.dart';
 
@@ -13,27 +15,30 @@ class _GraphState extends State<Graph> {
     _getCustNo();
   }
 
-  final List<int> dailyNo = [0, 0, 0, 0];
-
-  final _now = visitsdateFormator.format(DateTime.now());
-  final _pre1 =
-      visitsdateFormator.format(DateTime.now().subtract(Duration(days: 1)));
-  final _pre2 =
-      visitsdateFormator.format(DateTime.now().subtract(Duration(days: 2)));
-  final _pre3 =
-      visitsdateFormator.format(DateTime.now().subtract(Duration(days: 3)));
+  final List<int> dailyNo = [0, 0, 0, 0, 0];
 
   void _getCustNo() async {
-    print(_pre1);
-    final data = await fireStoreShopRef.doc(_now).collection(_now).get();
-    final data1 = await fireStoreShopRef.doc(_pre1).collection(_pre1).get();
-    final data2 = await fireStoreShopRef.doc(_pre2).collection(_pre2).get();
-    final data3 = await fireStoreShopRef.doc(_pre3).collection(_pre3).get();
+    final CollectionReference fireStore = FirebaseFirestore.instance
+        .collection('covin_scan')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection(FirebaseAuth.instance.currentUser.uid);
+    final _now = visitsdateFormator.format(DateTime.now());
+    List<String> dates = [];
+    for (int i = 0; i < 4; i++) {
+      dates.add(visitsdateFormator
+          .format(DateTime.now().subtract(Duration(days: i + 1))));
+    }
+    var data = await fireStore.doc(_now).collection(_now).get();
+    var data1 = await fireStore.doc(dates[0]).collection(dates[0]).get();
+    var data2 = await fireStore.doc(dates[1]).collection(dates[1]).get();
+    var data3 = await fireStore.doc(dates[2]).collection(dates[2]).get();
+    var data4 = await fireStore.doc(dates[3]).collection(dates[3]).get();
     setState(() {
-      dailyNo[0] = data3.docs.length;
-      dailyNo[1] = data2.docs.length;
-      dailyNo[2] = data1.docs.length;
-      dailyNo[3] = data.docs.length;
+      dailyNo[0] = data4.docs.length;
+      dailyNo[1] = data3.docs.length;
+      dailyNo[2] = data2.docs.length;
+      dailyNo[3] = data1.docs.length;
+      dailyNo[4] = data.docs.length;
     });
 
     print(dailyNo.toString());
@@ -41,6 +46,7 @@ class _GraphState extends State<Graph> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -50,7 +56,7 @@ class _GraphState extends State<Graph> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w800,
-            color: Colors.black54,
+            color: dark ? Colors.white : Colors.black54,
           ),
           textAlign: TextAlign.center,
         ),
@@ -61,12 +67,13 @@ class _GraphState extends State<Graph> {
             final width = constraints.maxWidth;
             return CustomPaint(
               size: Size(height, width),
-              painter: MyPainter(dailyNo: dailyNo),
+              painter: MyPainter(dailyNo: dailyNo, dark: dark),
             );
           }),
         ),
         Text(
-          'Customer Statics of 4 days',
+          'Customer Statics of 5 days',
+          style: TextStyle(color: Colors.grey),
           textAlign: TextAlign.center,
         )
       ],
@@ -76,7 +83,8 @@ class _GraphState extends State<Graph> {
 
 class MyPainter extends CustomPainter {
   final List<int> dailyNo;
-  MyPainter({this.dailyNo});
+  final bool dark;
+  MyPainter({this.dailyNo, this.dark});
 
   int _getUnitHeight() {
     int unitHeight = dailyNo[0];
@@ -93,46 +101,35 @@ class MyPainter extends CustomPainter {
     final unitH = size.height / _getUnitHeight();
     final unitW = size.width / 4;
     final paint = Paint()
-      ..color = Color(0xff64ffda)
+      ..color = dark ? Colors.amber : Color(0xffdc7633)
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
     final paintLine = Paint()
-      ..color = Color(0xff00e676)
+      ..color = dark ? Colors.amberAccent : Color(0xffedbb99)
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
-    final origin = Offset(0, size.height);
-    final yaxis = Offset(0, 0);
-    final xaxis = Offset(size.width, size.height);
-    final p1 = Offset(unitW, size.height - unitH * dailyNo[0]);
-    final p2 = Offset(unitW * 2, size.height - unitH * dailyNo[1]);
-    final p3 = Offset(unitW * 3, size.height - unitH * dailyNo[2]);
-    final p4 = Offset(unitW * 4, size.height - unitH * dailyNo[3]);
-    // axis
-    // canvas.drawLine(
-    //     origin - Offset(0, unitW / 2), yaxis + Offset(0, unitW / 2), paint);
-    // canvas.drawLine(
-    //     origin + Offset(unitW / 2, 0), xaxis - Offset(unitW / 2, 0), paint);
-    // graph
+
+    List<Offset> point = [];
+    for (int i = 0; i <= 4; i++) {
+      point.add(Offset(unitW * i, size.height - unitH * dailyNo[i]));
+    }
+
     List<TextPainter> pantxt = [];
     for (final no in dailyNo) {
-      final sp =
-          TextSpan(text: no.toString(), style: TextStyle(color: Colors.grey));
+      final sp = TextSpan(
+          text: no.toString(),
+          style: TextStyle(color: Colors.grey, fontSize: 10));
       pantxt.add(TextPainter(text: sp, textDirection: TextDirection.ltr));
     }
-    for (int i = 0; i < pantxt.length; i++) {
+
+    for (int i = 0; i <= 4; i++) {
       pantxt[i].layout(minWidth: 0, maxWidth: size.width);
+      pantxt[i].paint(canvas, point[i] + Offset(4, 0));
+
+      if (i != 4) canvas.drawLine(point[i], point[i + 1], paintLine);
+      canvas.drawCircle(point[i], 5, paint);
     }
-    pantxt[0].paint(canvas, origin);
-    canvas.drawLine(origin, p1, paintLine);
-    canvas.drawCircle(origin, 4, paint);
-    canvas.drawLine(p1, p2, paintLine);
-    canvas.drawCircle(p1, 4, paint);
-    canvas.drawLine(p2, p3, paintLine);
-    canvas.drawCircle(p2, 4, paint);
-    canvas.drawLine(p3, p4, paintLine);
-    canvas.drawCircle(p3, 4, paint);
-    canvas.drawCircle(p4, 4, paint);
   }
 
   @override

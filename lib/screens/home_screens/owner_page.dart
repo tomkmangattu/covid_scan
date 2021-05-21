@@ -13,6 +13,7 @@ class OwnerScreen extends StatelessWidget {
       FirebaseAuth.instance.currentUser.uid;
   @override
   Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text('Lets Battle Covid'),
@@ -38,7 +39,10 @@ class OwnerScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: _qrButton(
+                      bkColor: dark ? Colors.deepPurple : Colors.transparent,
                       borderColor: Colors.deepPurple,
+                      textColor: dark ? Colors.white : Colors.deepPurple,
+                      qrColor: dark ? Colors.white60 : Colors.deepPurple,
                       text: 'Generate Qr Code',
                       onpress: () {
                         Navigator.push(
@@ -54,8 +58,12 @@ class OwnerScreen extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => ShopRegistor()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ShopRegistor(),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
@@ -88,11 +96,18 @@ class OwnerScreen extends StatelessWidget {
     );
   }
 
-  TextButton _qrButton({Color borderColor, String text, Function onpress}) {
+  TextButton _qrButton(
+      {Color borderColor,
+      String text,
+      Color textColor,
+      Color bkColor,
+      Color qrColor,
+      Function onpress}) {
     return TextButton(
       onPressed: onpress,
       child: Container(
         decoration: BoxDecoration(
+          color: bkColor,
           border: Border.all(color: borderColor),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -104,11 +119,11 @@ class OwnerScreen extends StatelessWidget {
               Flexible(
                   child: QrImage(
                 data: _qrId,
-                foregroundColor: borderColor,
+                foregroundColor: qrColor,
               )),
               Text(
                 text,
-                style: TextStyle(color: borderColor),
+                style: TextStyle(color: textColor),
               ),
             ],
           ),
