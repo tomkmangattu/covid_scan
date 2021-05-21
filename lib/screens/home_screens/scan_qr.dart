@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covid_scan/utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +15,7 @@ class _QrScannerState extends State<QrScanner> {
   bool read = false;
   QRViewController _qrViewController;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  final DateFormat formator = DateFormat('dd-MM-yyyy');
   final _now = DateTime.now();
-  bool _flashon = false;
 
   @override
   void reassemble() {
@@ -101,7 +98,7 @@ class _QrScannerState extends State<QrScanner> {
       final shopId = scandata.last;
       final shopName = scandata[1];
       // print(shopId);
-      final String now = formator.format(DateTime.now());
+      final String now = visitsdateFormator.format(DateTime.now());
       final _userId = FirebaseAuth.instance.currentUser.uid;
       final name = FirebaseAuth.instance.currentUser.displayName;
       final CollectionReference collectionReference = FirebaseFirestore.instance

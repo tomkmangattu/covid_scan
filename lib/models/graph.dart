@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_scan/utilities/constants.dart';
 
@@ -15,24 +13,24 @@ class _GraphState extends State<Graph> {
     _getCustNo();
   }
 
-  final List<int> dailyNo = [0, 0, 0, 0, 0];
+  List<int> dailyNo = [0, 0, 0, 0, 0];
 
   void _getCustNo() async {
-    final CollectionReference fireStore = FirebaseFirestore.instance
-        .collection('covin_scan')
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection(FirebaseAuth.instance.currentUser.uid);
     final _now = visitsdateFormator.format(DateTime.now());
     List<String> dates = [];
-    for (int i = 0; i < 4; i++) {
-      dates.add(visitsdateFormator
-          .format(DateTime.now().subtract(Duration(days: i + 1))));
+    for (int i = 1; i <= 4; i++) {
+      dates.add(
+        visitsdateFormator.format(
+          DateTime.now().subtract(Duration(days: i)),
+        ),
+      );
     }
-    var data = await fireStore.doc(_now).collection(_now).get();
-    var data1 = await fireStore.doc(dates[0]).collection(dates[0]).get();
-    var data2 = await fireStore.doc(dates[1]).collection(dates[1]).get();
-    var data3 = await fireStore.doc(dates[2]).collection(dates[2]).get();
-    var data4 = await fireStore.doc(dates[3]).collection(dates[3]).get();
+    var data = await fireStoreShopRef.doc(_now).collection(_now).get();
+    var data1 = await fireStoreShopRef.doc(dates[0]).collection(dates[0]).get();
+    var data2 = await fireStoreShopRef.doc(dates[1]).collection(dates[1]).get();
+    var data3 = await fireStoreShopRef.doc(dates[2]).collection(dates[2]).get();
+    var data4 = await fireStoreShopRef.doc(dates[3]).collection(dates[3]).get();
+
     setState(() {
       dailyNo[0] = data4.docs.length;
       dailyNo[1] = data3.docs.length;

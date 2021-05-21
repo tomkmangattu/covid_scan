@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
-  var _username = FirebaseAuth.instance.currentUser.displayName;
+  final _username = FirebaseAuth.instance.currentUser.displayName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +17,7 @@ class SettingsScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // signOut button
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
@@ -26,41 +27,25 @@ class SettingsScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(' Sign Out'),
-                    SizedBox(
-                      width: 5,
-                    ),
+                    const SizedBox(width: 5),
                     Icon(Icons.arrow_forward_ios),
                   ],
                 ),
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  BuildContext ctk =
-                      BlocProvider.of<SignoutCubit>(context).context;
-                  if (Navigator.canPop(ctk)) Navigator.pop(ctk);
-                  Navigator.popAndPushNamed(ctk, LoginHome.id);
-                },
+                onPressed: () => _signOut(context),
               ),
             ),
           ),
           const Divider(height: 2),
           // edit details
           TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => NewUserScreen(
-                    edit: true,
-                  ),
-                ),
-              );
-            },
+            onPressed: () => _editUserDetails(context),
             child: SizedBox(
               width: double.infinity,
               child: Text('Change User Info'),
             ),
           ),
           const Divider(height: 2),
+          // theme changer
           SwitchListTile(
             title: Text('Enable dark theme'),
             value: Theme.of(context).brightness == Brightness.dark,
@@ -70,6 +55,24 @@ class SettingsScreen extends StatelessWidget {
           ),
           const Divider(height: 2),
         ],
+      ),
+    );
+  }
+
+  void _signOut(BuildContext context) async {
+    FirebaseAuth.instance.signOut();
+    BuildContext ctk = BlocProvider.of<SignoutCubit>(context).context;
+    if (Navigator.canPop(ctk))
+      Navigator.pop(ctk);
+    else
+      Navigator.popAndPushNamed(ctk, LoginHome.id);
+  }
+
+  void _editUserDetails(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => NewUserScreen(edit: true),
       ),
     );
   }

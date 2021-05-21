@@ -100,8 +100,9 @@ class QrGeneratorPage extends StatelessWidget {
         final permenentDir = await getExternalStorageDirectory();
         final File permentFile =
             await File('${permenentDir.path}/qrcodeImage.png').create();
-        print(permentFile.path);
+        debugPrint(permentFile.path);
         await permentFile.writeAsBytes(pngBytes);
+        _showSnack(context, permentFile.path);
       }
       // share file
       else {
@@ -119,5 +120,30 @@ class QrGeneratorPage extends StatelessWidget {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Sorry something went wrong')));
     }
+  }
+
+  void _showSnack(BuildContext context, String location) {
+    final List<String> paths = location.split('/');
+    List<String> reducedPath = [];
+    for (var p in paths) {
+      if (p == '' || p == 'storage' || p == 'emulated' || p == '0') {
+      } else {
+        reducedPath.add('/' + p);
+      }
+    }
+    print(paths);
+    String path;
+
+    if (paths[3] == '0') {
+      path = 'Internal Storage' + reducedPath.join();
+    } else {
+      path = 'Sd Card' + reducedPath.join();
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text('Iamge saved to : ' + path),
+          duration: Duration(seconds: 6),
+          backgroundColor: kAppPrimColor),
+    );
   }
 }

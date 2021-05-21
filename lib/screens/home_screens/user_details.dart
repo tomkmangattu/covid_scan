@@ -51,10 +51,11 @@ class CustomerDetails extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 16),
                 Center(
                   child: SizedBox(
-                      height: 200,
-                      width: 200,
+                      height: 100,
+                      width: 100,
                       child: CircularProgressIndicator()),
                 ),
                 const SizedBox(height: 16),

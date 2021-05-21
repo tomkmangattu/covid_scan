@@ -28,15 +28,17 @@ class _ThemeChangerState extends State<ThemeChanger> {
 
   void changeTheme() async {
     final bool dark = _brightness == Brightness.dark;
+    _changeStoredTheme(dark);
     setState(() {
       _brightness = dark ? Brightness.light : Brightness.dark;
     });
-    _changeStoredTheme(dark);
   }
 
   void _changeStoredTheme(bool dark) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
-    shared.setBool('dark', dark);
+    shared.setBool('dark', !dark);
+    final bool d = shared.getBool('dark');
+    print(d);
   }
 
   Brightness getCurrentTheme() {
