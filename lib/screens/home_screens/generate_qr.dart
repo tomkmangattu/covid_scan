@@ -141,7 +141,7 @@ class QrGeneratorPage extends StatelessWidget {
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-          content: Text('Iamge saved to : ' + path),
+          content: Text('Image saved to : ' + path),
           duration: Duration(seconds: 6),
           backgroundColor: kAppPrimColor),
     );
