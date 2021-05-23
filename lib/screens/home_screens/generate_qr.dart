@@ -71,7 +71,7 @@ class QrGeneratorPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Scan the Qr code using coid_scan app',
+                      'Scan the Qr code using covid_scan app',
                       style: TextStyle(fontSize: 20, color: Colors.black54),
                       textAlign: TextAlign.center,
                     )
