@@ -34,4 +34,4 @@ BFH/rec7VqAiu9agkTofr/2021
 ## How to configure
 [Download and Install apk file from here](https://drive.google.com/file/d/1jyE1BVpbykzhZokkuBtpoT61GareOGOl/view?usp=sharing)
 ## How to Run
-Instructions for running
+Download apk from [here](https://drive.google.com/file/d/1jyE1BVpbykzhZokkuBtpoT61GareOGOl/view?usp=sharing). Install app on your android phone.
