@@ -1,9 +1,10 @@
 ![BFH Banner](https://trello-attachments.s3.amazonaws.com/542e9c6316504d5797afbfb9/542e9c6316504d5797afbfc1/39dee8d993841943b5723510ce663233/Frame_19.png)
-# Project Name
-Long Description about project. This project do that. This project is awesome...
+# Covid_scan
+A flutter app to get customer details in shop by scanning QR code. 
 ## Team members
-1. Name [Embed personal github URL]
-2. Name [Embed perosnal github URL]
+1. [Tom K Mangattu](https://github.com/tomkmangattu)
+2. Yadunandan K
+3. Belbin Baby
 ## Team Id
 Team id here
 ## Link to product walkthrough
