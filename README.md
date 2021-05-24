@@ -3,8 +3,8 @@
 A flutter app to get customer details in shop by scanning QR code. 
 ## Team members
 1. [Tom K Mangattu](https://github.com/tomkmangattu)
-2. Yadunandan K
-3. Belbin Baby
+2. [Yadunandan K](https://github.com/yadu2903)
+3. [Belbin Baby](https://github.com/belbin07)
 ## Team Id
 Team id here
 ## Link to product walkthrough
