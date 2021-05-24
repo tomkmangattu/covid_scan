@@ -17,8 +17,21 @@ BFH/rec7VqAiu9agkTofr/2021
   customers and their details. He can also see customer statics.
 3. [Video of project demo ](https://drive.google.com/file/d/1Yx1EaXBIhiqM8DNVImn4bkbzfl5FQUc1/view?usp=sharing)
 ## Libraries used
-Library Name - Version
+
+  cupertino_icons: 1.0.2
+  qr_code_scanner: 0.4.0
+  qr_flutter: 4.0.0
+  path_provider: 2.0.1
+  share: 2.0.1
+  firebase_core: 1.1.1
+  firebase_auth: 1.1.4
+  flutter_bloc: 7.0.0
+  image_picker: 0.7.5
+  cloud_firestore: 2.1.0
+  firebase_storage: 8.0.6
+  shared_preferences: 2.0.5
+  
 ## How to configure
-Instructions for setting up project
+[Download and Install apk file from here](https://drive.google.com/file/d/1jyE1BVpbykzhZokkuBtpoT61GareOGOl/view?usp=sharing)
 ## How to Run
 Instructions for running
