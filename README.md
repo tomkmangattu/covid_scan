@@ -6,9 +6,9 @@ A flutter app to get customer details in shop by scanning QR code.
 2. [Yadunandan K](https://github.com/yadu2903)
 3. [Belbin Baby](https://github.com/belbin07)
 ## Team Id
-Team id here
+BFH/rec7VqAiu9agkTofr/2021
 ## Link to product walkthrough
-[link to video]
+https://www.loom.com/share/f4693309275c46d4b45096915b31f196?sharedAppSource=personal_library
 ## How it Works ?
 1. Explaining the working of project
 2. Embed video of project demo
